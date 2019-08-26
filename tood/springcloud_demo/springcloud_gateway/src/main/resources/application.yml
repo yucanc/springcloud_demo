@@ -1,0 +1,50 @@
+server:
+  port: 16666
+spring:
+  application:
+    name: server-gateway
+  cloud:
+    gateway:
+      #配置路由规则
+      routes:
+          #当前这个路由规则编号 只要唯一就可以了
+        - id: server-ribbon
+          #当前的路由的路径 - 最终请求会交给哪个微服务
+          uri: lb://SERVER-CONSUMER-RIBBON
+          #请求的断言 - 判断怎样的请求才符合当前这个路由规则
+          predicates:
+            - Path=/ribbon/**
+          filters:
+            #配置路由熔断
+            - name: Hystrix
+              args:
+                name: default
+                fallbackUri: forward:/fallback
+
+          #当前这个路由规则编号 只要唯一就可以了
+        - id: server-feign
+          #当前的路由的路径 - 最终请求会交给哪个微服务
+          uri: lb://SERVER-CONSUMER-feign
+          #请求的断言 - 判断怎样的请求才符合当前这个路由规则
+          predicates:
+            - Path=/feign/**
+          #配置路由的过滤器
+          filters:
+            #配置一个限流过滤器
+            - name: RequestRateLimiter
+              args:
+                #令牌桶的匹配规则
+                key-resolver: '#{@remoteAddrKeyResolver}'
+                #往令牌桶中放令牌的数量，每秒
+                redis-rate-limiter.replenishRate: 1
+                #令牌桶的最大容量
+                redis-rate-limiter.burstCapacity: 5
+  redis:
+    host: 192.168.227.188
+    password: root
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8080/eureka
+
+

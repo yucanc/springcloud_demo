@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    #配置微服务名称
+    name: eureka-server
+eureka:
+  client:
+    service-url:
+      #配置注册中心的地址
+      defaultZone: http://www.bbb.com:8081/eureka,http://www.ccc.com:8082/eureka
+    #配置当前的微服务是否注册到注册中心 - 默认为true
+    register-with-eureka: false
+    #配置当前的微服务能否从注册中心上获取其他的微服务地址 - 默认为true
+    fetch-registry: false

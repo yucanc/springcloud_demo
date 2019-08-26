@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    config:
+      #配置config server的服务地址
+      uri: http://localhost:18888
+      #配置 配置文件的名称
+      name: application
+      #配置文件的后缀
+      profile: default
+      #分支的名字
+      label: master
+server:
+  port: 19999
+
+#暴露所有节点（其中包含bus-refresh，该节点就是刷新配置文件）
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ['*']

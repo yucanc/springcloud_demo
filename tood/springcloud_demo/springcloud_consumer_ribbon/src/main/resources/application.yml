@@ -1,0 +1,19 @@
+server:
+  port: 10000
+spring:
+  application:
+    name: server-consumer-ribbon
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8081/eureka
+hystrix:
+  command:
+    default:
+      circuitBreaker:
+        #开启熔断器
+        enabled: true
+        #单位时间出现异常次数后，熔断器就会打开，默认20
+        requestVolumeThreshold: 2
+        #熔断器半开的时间
+        sleepWindowInMilliseconds: 5000

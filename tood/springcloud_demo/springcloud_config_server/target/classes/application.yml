@@ -1,0 +1,15 @@
+server:
+  port: 18888
+spring:
+  cloud:
+    config:
+      server:
+        #配置git仓库的地址
+        git:
+          uri: https://github.com/verygoodwlk/myconfig_1904.git
+        #配置svn仓库的地址
+        #svn:
+        #  uri:
+        #配置本地配置文件的存放路径
+        #native:
+        #  search-locations:
